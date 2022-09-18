@@ -1,0 +1,14 @@
+name: Explorer
+version: '${project.version}'
+main: de.asedem.explorer.spigot.ExplorerSpigot
+api-version: 1.18
+authors: [ Asedem ]
+description: An explorer Plugin for Minecraft
+website: asedem.dev
+
+commands:
+  explorercli:
+    usage: /explorercli [command]
+    description: A CLI tool for the minecraft chat to navigate through the Server files!
+    permission: explorer.command.cli
+    aliases: [ exp, cli, eli ]
