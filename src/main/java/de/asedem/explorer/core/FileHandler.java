@@ -1,6 +1,8 @@
 package de.asedem.explorer.core;
 
 import org.apache.commons.io.FileUtils;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import java.io.File;
 import java.io.IOException;
@@ -12,26 +14,29 @@ import java.util.UUID;
 
 public class FileHandler {
 
-    private final Map<UUID, Path> currentFiles = new HashMap<>();
-    private final Map<UUID, File> copyFiles = new HashMap<>();
+    private FileHandler() {
+    }
 
-    public void navigate(UUID uuid, Path path) {
+    private static final Map<@NotNull UUID, Path> currentFiles = new HashMap<>();
+    private static final Map<@NotNull UUID, File> copyFiles = new HashMap<>();
+
+    public static void navigate(@NotNull UUID uuid, @NotNull Path path) {
         currentFiles.put(uuid, path);
     }
 
-    public void copy(UUID uuid, File file) {
+    public static void copy(@NotNull UUID uuid, @NotNull File file) {
         copyFiles.put(uuid, file);
     }
 
-    public void down(UUID uuid) {
+    public static void down(@NotNull UUID uuid) {
         currentFiles.put(uuid, currentFiles.get(uuid).getParent());
     }
 
-    public void up(UUID uuid, String name) {
+    public static void up(@NotNull UUID uuid, @NotNull String name) {
         currentFiles.put(uuid, Paths.get(currentFiles.get(uuid).toString(), name));
     }
 
-    public boolean paste(UUID uuid) throws IOException {
+    public static boolean paste(@NotNull UUID uuid) throws IOException {
         if (!copyFiles.containsKey(uuid)) return false;
         File from = copyFiles.get(uuid);
         File directory = currentFiles.get(uuid).toFile();
@@ -45,5 +50,12 @@ public class FileHandler {
         if (!to.exists()) to.createNewFile();
         FileUtils.copyFile(to, from);
         return true;
+    }
+
+    @Nullable
+    public static File getCurrentFile(@NotNull UUID uuid) {
+        Path path = currentFiles.get(uuid);
+        if (path == null) return null;
+        return path.toFile();
     }
 }
