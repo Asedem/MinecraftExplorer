@@ -2,6 +2,7 @@ package de.asedem.explorer.spigot.commands;
 
 import de.asedem.explorer.spigot.ExplorerSpigot;
 import de.asedem.explorer.spigot.commands.modules.DirModule;
+import de.asedem.explorer.spigot.commands.modules.PwdModule;
 import de.asedem.explorer.spigot.libs.CommandModule;
 import de.asedem.explorer.spigot.libs.ModuleCommand;
 import org.jetbrains.annotations.NotNull;
@@ -17,7 +18,8 @@ public class ExplorerCLICommandSpigot extends ModuleCommand {
     @Override
     public @NotNull List<CommandModule> defineModules() {
         return List.of(
-                new DirModule(this.main, "dir")
+                new DirModule(this.main, "dir"),
+                new PwdModule(this.main, "pwd")
         );
     }
 }

@@ -5,6 +5,8 @@ import de.asedem.explorer.core.config.ConfigHandler;
 import de.asedem.explorer.core.config.MessageHandler;
 import de.asedem.explorer.spigot.commands.ExplorerCLICommandSpigot;
 import de.asedem.explorer.spigot.config.BukkitConfig;
+import de.asedem.explorer.spigot.events.JoinQuitEvent;
+import org.bukkit.Bukkit;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.nio.file.Path;
@@ -37,6 +39,8 @@ public final class ExplorerSpigot extends JavaPlugin {
         FileHandler.navigate(ExplorerSpigot.CONSOLE, ExplorerSpigot.DEFAULT_PATH);
 
         Objects.requireNonNull(this.getCommand("explorercli")).setExecutor(new ExplorerCLICommandSpigot(this, "cli"));
+
+        Bukkit.getPluginManager().registerEvents(new JoinQuitEvent(), this);
     }
 
     public ConfigHandler getConfigHandler() {

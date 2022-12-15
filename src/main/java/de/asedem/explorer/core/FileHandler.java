@@ -20,6 +20,11 @@ public class FileHandler {
     private static final Map<@NotNull UUID, Path> currentFiles = new HashMap<>();
     private static final Map<@NotNull UUID, File> copyFiles = new HashMap<>();
 
+    public static void delete(@NotNull UUID uuid) {
+        currentFiles.remove(uuid);
+        copyFiles.remove(uuid);
+    }
+
     public static void navigate(@NotNull UUID uuid, @NotNull Path path) {
         currentFiles.put(uuid, path);
     }
