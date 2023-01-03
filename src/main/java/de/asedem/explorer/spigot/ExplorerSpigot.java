@@ -7,10 +7,14 @@ import de.asedem.explorer.spigot.commands.ExplorerCLICommandSpigot;
 import de.asedem.explorer.spigot.config.BukkitConfig;
 import de.asedem.explorer.spigot.events.JoinQuitEvent;
 import org.bukkit.Bukkit;
+import org.bukkit.entity.ArmorStand;
+import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Objects;
 import java.util.UUID;
 
@@ -40,7 +44,7 @@ public final class ExplorerSpigot extends JavaPlugin {
 
         Objects.requireNonNull(this.getCommand("explorercli")).setExecutor(new ExplorerCLICommandSpigot(this, "cli"));
 
-        Bukkit.getPluginManager().registerEvents(new JoinQuitEvent(), this);
+        Bukkit.getPluginManager().registerEvents(new JoinQuitEvent(this), this);
     }
 
     public ConfigHandler getConfigHandler() {

@@ -6,6 +6,8 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.io.File;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.Arrays;
 import java.util.Objects;
 import java.util.UUID;
@@ -35,7 +37,17 @@ public class CliHandler {
     }
 
     @Nullable
-    private static File directory(@NotNull UUID uuid) {
+    public static Boolean cd(@NotNull UUID uuid, @NotNull String path) {
+        File file;
+        if ((file = CliHandler.directory(uuid)) == null) return null;
+        Path newDir = Paths.get(file.getAbsolutePath(), path);
+        if (!newDir.toFile().exists() || !newDir.toFile().isDirectory()) return false;
+        FileHandler.navigate(uuid, newDir);
+        return true;
+    }
+
+    @Nullable
+    public static File directory(@NotNull UUID uuid) {
         File file = FileHandler.getCurrentFile(uuid);
         if (file == null || !file.isDirectory()) return null;
         return file;

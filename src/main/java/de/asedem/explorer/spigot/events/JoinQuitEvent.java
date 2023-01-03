@@ -9,6 +9,12 @@ import org.bukkit.event.player.PlayerQuitEvent;
 
 public class JoinQuitEvent implements Listener {
 
+    private final ExplorerSpigot main;
+
+    public JoinQuitEvent(ExplorerSpigot main) {
+        this.main = main;
+    }
+
     @EventHandler
     public void onPlayerJoin(PlayerJoinEvent event) {
         FileHandler.navigate(event.getPlayer().getUniqueId(), ExplorerSpigot.DEFAULT_PATH);
