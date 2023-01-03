@@ -1,12 +1,15 @@
 package de.asedem.explorer.core.cli;
 
 import de.asedem.explorer.core.FileHandler;
+import de.asedem.explorer.core.libs.Hastebin;
+import org.apache.commons.io.FileUtils;
 import org.bukkit.ChatColor;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.io.File;
 import java.io.IOException;
+import java.nio.charset.Charset;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Arrays;
@@ -15,6 +18,8 @@ import java.util.UUID;
 import java.util.stream.Stream;
 
 public class CliHandler {
+
+    private static final Hastebin hastebin = new Hastebin();
 
     private CliHandler() {
 
@@ -45,6 +50,17 @@ public class CliHandler {
         if (!newDir.toFile().exists() || !newDir.toFile().isDirectory()) return false;
         FileHandler.navigate(uuid, newDir);
         return true;
+    }
+
+    @Nullable
+    public static String nano(@NotNull UUID uuid, @NotNull String path) throws IOException {
+        File file;
+        if ((file = CliHandler.directory(uuid)) == null) return null;
+        Path fileToOpen = Paths.get(file.getAbsolutePath(), path);
+        if (!fileToOpen.toFile().exists()) return "File dosen't exists!";
+        if (!fileToOpen.toFile().isFile()) return "File is a Directory!";
+        String text = String.join("\n", FileUtils.readLines(fileToOpen.toFile(), Charset.defaultCharset()));
+        return hastebin.post(text, false);
     }
 
     @Nullable

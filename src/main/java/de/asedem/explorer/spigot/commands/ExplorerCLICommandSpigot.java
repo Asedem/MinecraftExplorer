@@ -3,6 +3,7 @@ package de.asedem.explorer.spigot.commands;
 import de.asedem.explorer.spigot.ExplorerSpigot;
 import de.asedem.explorer.spigot.commands.modules.CdModule;
 import de.asedem.explorer.spigot.commands.modules.DirModule;
+import de.asedem.explorer.spigot.commands.modules.NanoModule;
 import de.asedem.explorer.spigot.commands.modules.PwdModule;
 import de.asedem.explorer.spigot.libs.CommandModule;
 import de.asedem.explorer.spigot.libs.ModuleCommand;
@@ -21,7 +22,8 @@ public class ExplorerCLICommandSpigot extends ModuleCommand {
         return List.of(
                 new CdModule(this.main, "cd"),
                 new DirModule(this.main, "dir"),
-                new PwdModule(this.main, "pwd")
+                new PwdModule(this.main, "pwd"),
+                new NanoModule(this.main, "nano")
         );
     }
 }
