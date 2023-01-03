@@ -6,6 +6,7 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.io.File;
+import java.io.IOException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Arrays;
@@ -30,10 +31,10 @@ public class CliHandler {
     }
 
     @Nullable
-    public static String pwd(@NotNull UUID uuid) {
+    public static String pwd(@NotNull UUID uuid) throws IOException {
         File file;
         if ((file = CliHandler.directory(uuid)) == null) return null;
-        return file.getAbsolutePath();
+        return file.getCanonicalPath();
     }
 
     @Nullable

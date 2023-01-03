@@ -7,6 +7,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 
+import java.io.IOException;
 import java.util.Collections;
 import java.util.List;
 import java.util.UUID;
@@ -20,9 +21,14 @@ public class PwdModule extends CommandModule {
     @Override
     public void onCommand(@NotNull CommandSender sender, @NotNull String[] args) {
         UUID uuid = sender instanceof Player player ? player.getUniqueId() : ExplorerSpigot.CONSOLE;
-        String path = CliHandler.pwd(uuid);
-        if (path == null) return;
-        sender.sendMessage(path);
+        String path = null;
+        try {
+            path = CliHandler.pwd(uuid);
+            if (path == null) return;
+            sender.sendMessage(path);
+        } catch (IOException exception) {
+            exception.printStackTrace();
+        }
     }
 
     @Override
