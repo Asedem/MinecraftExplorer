@@ -32,7 +32,7 @@ public class CliHandler {
         return Arrays.stream(Objects.requireNonNull(file.listFiles()))
                 .sorted(CliHandler::compareFiles)
                 .map(current -> ChatColor.translateAlternateColorCodes('&',
-                        (current.isFile() ? "&a▤" : "&d▥") + current.getName()));
+                        (current.isFile() ? "&a▤ " : "&d▥ ") + current.getName()));
     }
 
     @Nullable
