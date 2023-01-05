@@ -28,7 +28,7 @@ public class CliHandler {
     @Nullable
     public static Stream<String> dir(@NotNull UUID uuid) {
         File file;
-        if ((file = CliHandler.directory(uuid)) == null) return null;
+        if ((file = FileHandler.directory(uuid)) == null) return null;
         return Arrays.stream(Objects.requireNonNull(file.listFiles()))
                 .sorted(CliHandler::compareFiles)
                 .map(current -> ChatColor.translateAlternateColorCodes('&',
@@ -38,14 +38,14 @@ public class CliHandler {
     @Nullable
     public static String pwd(@NotNull UUID uuid) throws IOException {
         File file;
-        if ((file = CliHandler.directory(uuid)) == null) return null;
+        if ((file = FileHandler.directory(uuid)) == null) return null;
         return file.getCanonicalPath();
     }
 
     @Nullable
     public static Boolean cd(@NotNull UUID uuid, @NotNull String path) {
         File file;
-        if ((file = CliHandler.directory(uuid)) == null) return null;
+        if ((file = FileHandler.directory(uuid)) == null) return null;
         Path newDir = Paths.get(file.getAbsolutePath(), path);
         if (!newDir.toFile().exists() || !newDir.toFile().isDirectory()) return false;
         FileHandler.navigate(uuid, newDir);
@@ -55,19 +55,12 @@ public class CliHandler {
     @Nullable
     public static String nano(@NotNull UUID uuid, @NotNull String path) throws IOException {
         File file;
-        if ((file = CliHandler.directory(uuid)) == null) return null;
+        if ((file = FileHandler.directory(uuid)) == null) return null;
         Path fileToOpen = Paths.get(file.getAbsolutePath(), path);
         if (!fileToOpen.toFile().exists()) return "File dosen't exists!";
         if (!fileToOpen.toFile().isFile()) return "File is a Directory!";
         String text = String.join("\n", FileUtils.readLines(fileToOpen.toFile(), Charset.defaultCharset()));
         return hastebin.post(text, false);
-    }
-
-    @Nullable
-    public static File directory(@NotNull UUID uuid) {
-        File file = FileHandler.getCurrentFile(uuid);
-        if (file == null || !file.isDirectory()) return null;
-        return file;
     }
 
     private static int compareFiles(@NotNull File file1, @NotNull File file2) {

@@ -4,7 +4,6 @@ import de.asedem.explorer.core.cli.CliHandler;
 import de.asedem.explorer.spigot.ExplorerSpigot;
 import de.asedem.explorer.spigot.libs.CommandModule;
 import org.bukkit.command.CommandSender;
-import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.*;
@@ -18,7 +17,7 @@ public class DirModule extends CommandModule {
 
     @Override
     public void onCommand(@NotNull CommandSender sender, @NotNull String[] args) {
-        UUID uuid = sender instanceof Player player ? player.getUniqueId() : ExplorerSpigot.CONSOLE;
+        UUID uuid = ExplorerSpigot.bukkitUUID.get(sender);
         Stream<String> fileStream = CliHandler.dir(uuid);
         if (fileStream == null) return;
         fileStream.forEach(sender::sendMessage);

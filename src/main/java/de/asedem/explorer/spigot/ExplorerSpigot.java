@@ -3,21 +3,22 @@ package de.asedem.explorer.spigot;
 import de.asedem.explorer.core.FileHandler;
 import de.asedem.explorer.core.config.ConfigHandler;
 import de.asedem.explorer.core.config.MessageHandler;
+import de.asedem.explorer.core.libs.UUIDHandler;
 import de.asedem.explorer.spigot.commands.ExplorerCLICommandSpigot;
 import de.asedem.explorer.spigot.config.BukkitConfig;
 import de.asedem.explorer.spigot.events.JoinQuitEvent;
+import de.asedem.explorer.spigot.libs.BukkitUUID;
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Objects;
-import java.util.UUID;
 
 public final class ExplorerSpigot extends JavaPlugin {
 
-    public static final UUID CONSOLE = new UUID(0, 0);
     public static Path DEFAULT_PATH;
+    public static final BukkitUUID bukkitUUID = new BukkitUUID();
 
     private ConfigHandler configHandler;
     private MessageHandler messageHandler;
@@ -36,7 +37,7 @@ public final class ExplorerSpigot extends JavaPlugin {
         this.configHandler = new ConfigHandler(this.bukkitConfig);
         this.messageHandler = new MessageHandler(this.bukkitConfig);
 
-        FileHandler.navigate(ExplorerSpigot.CONSOLE, ExplorerSpigot.DEFAULT_PATH);
+        FileHandler.navigate(UUIDHandler.CONSOLE, ExplorerSpigot.DEFAULT_PATH);
 
         Objects.requireNonNull(this.getCommand("explorercli")).setExecutor(new ExplorerCLICommandSpigot(this, "cli"));
 

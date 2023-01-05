@@ -8,6 +8,7 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
@@ -62,5 +63,21 @@ public class FileHandler {
         Path path = currentFiles.get(uuid);
         if (path == null) return null;
         return path.toFile();
+    }
+
+    @Nullable
+    public static File directory(@NotNull UUID uuid) {
+        File file = FileHandler.getCurrentFile(uuid);
+        if (file == null || !file.isDirectory()) return null;
+        return file;
+    }
+
+    @Nullable
+    public static File[] subfiles(@NotNull UUID uuid) {
+        File file = FileHandler.directory(uuid);
+        if (file == null || !file.exists()) return null;
+        File[] files = file.listFiles();
+        if (files == null || files.length == 0) return null;
+        return files;
     }
 }
